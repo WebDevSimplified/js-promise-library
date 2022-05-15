@@ -122,13 +122,13 @@ class MyPromise {
   }
 
   static resolve(value) {
-    return new Promise(resolve => {
+    return new MyPromise(resolve => {
       resolve(value)
     })
   }
 
   static reject(value) {
-    return new Promise((resolve, reject) => {
+    return new MyPromise((resolve, reject) => {
       reject(value)
     })
   }
