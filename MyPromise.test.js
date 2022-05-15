@@ -55,7 +55,7 @@ describe("catch", () => {
 
 describe("finally", () => {
   it("with no chaining", () => {
-    const checkFunc = v => v => expect(v).toBeUndefined()
+    const checkFunc = v => expect(v).toBeUndefined()
     const successPromise = promise().finally(checkFunc)
     const failPromise = promise({ fail: true }).finally(checkFunc)
     return Promise.allSettled([successPromise, failPromise])
@@ -70,7 +70,7 @@ describe("finally", () => {
   })
 
   it("with chaining", () => {
-    const checkFunc = v => v => expect(v).toBeUndefined()
+    const checkFunc = v => expect(v).toBeUndefined()
     const successPromise = promise()
       .then(v => v)
       .finally(checkFunc)
@@ -143,7 +143,7 @@ describe("static methods", () => {
     it("with fail", () => {
       return MyPromise.any([
         promise({ fail: true, value: 1 }),
-        promise({ value: 2 }),
+        promise({ fail: true, value: 2 }),
       ]).catch(e => expect(e.errors).toEqual([1, 2]))
     })
   })
@@ -152,5 +152,12 @@ describe("static methods", () => {
 function promise({ value = DEFAULT_VALUE, fail = false } = {}) {
   return new MyPromise((resolve, reject) => {
     fail ? reject(value) : resolve(value)
+  })
+}
+
+function it(description, fn) {
+  test(description, () => {
+    expect.hasAssertions()
+    return fn()
   })
 }
